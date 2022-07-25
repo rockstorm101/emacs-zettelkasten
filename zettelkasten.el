@@ -403,7 +403,7 @@ Also see `zettelkasten--create-new-note-ni' for more information."
         (notes (zettelkasten--list-notes)))
     (zettelkasten--create-new-note-ni
      title
-     (unless (or prefix (not notes))
+     (unless (or (not prefix) (not notes))
        (completing-read "Parent note: " notes nil 'match)))))
 
 (defun zettelkasten-open-parent (&optional note)
