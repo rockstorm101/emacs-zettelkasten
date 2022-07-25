@@ -76,7 +76,7 @@ For supported options, please consult `format-time-string'."
 
 (defun zettelkasten--filename-to-id (filename)
   "Convert FILENAME to id."
-  (string-match (format "\\([0-9]*\\)\\.%s\\'" zettelkasten-extension) filename)
+  (string-match (format "\\([a-zA-Z0-9]*\\)\\.%s\\'" zettelkasten-extension) filename)
   (match-string 1 filename))
 
 (defun zettelkasten--display-for-search (note)
@@ -90,7 +90,7 @@ Meant for displaying when searching."
 
 The note may be formatted with some title, which this function
 aims to remove."
-  (string-match "[^0-9]*\\([0-9]+\\)" note)
+  (string-match "[^0-9]*\\([a-zA-Z0-9]+\\)" note)
   (match-string 1 note))
 
 (defun zettelkasten--format-link (note &optional link-text)
@@ -143,7 +143,7 @@ Return the NUMth match.  If NUM is nil, return the 0th match."
   (mapcar #'zettelkasten--filename-to-id
           (directory-files
            (expand-file-name zettelkasten-directory) nil
-           (format "[0-9]+\\.%s$" zettelkasten-extension) t)))
+           (format "[a-zA-Z0-9]+\\.%s$" zettelkasten-extension) t)))
 
 (defun zettelkasten--list-notes-grep ()
   "Return all the ids and titles of notes in the `zettelkasten-directory'.
@@ -161,7 +161,7 @@ This is deprecated in favour for `zettelkasten-list-notes'."
                (line-beginning-position)
                (line-end-position)))
         (when (string-match
-               (format "\\([0-9]*\\)\\.%s:#\\+TITLE: \\(.*\\)"
+               (format "\\([a-zA-Z0-9]*\\)\\.%s:#\\+TITLE: \\(.*\\)"
                        zettelkasten-extension)
                current-string)
           (setq matched-string (concat (match-string 1 current-string) ": "
