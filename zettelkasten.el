@@ -221,8 +221,10 @@ If PARENT is nil, it will not add a link from a PARENT."
     (with-temp-buffer
       (set-visited-file-name filename)
       (set-buffer-file-coding-system 'utf-8)
-      (insert "#+TITLE: " title
-              (format-time-string "\n#+DATE: %c\n#+TAGS:\n\n"))
+      (insert "---\n")
+      (insert "title: " title
+              (format-time-string "\ndate: %c\ntags:\n"))
+      (insert "---\n\n")
       (save-buffer))
     (when parent
       (zettelkasten--add-link-to-parent note (zettelkasten--get-id parent)))
@@ -238,7 +240,7 @@ If PARENT is nil, it will not add a link from a PARENT."
 
 (defun zettelkasten--get-note-title (note)
   "Return the title of the NOTE."
-  (zettelkasten--note-regexp note "#\\+TITLE: \\(.*\\)" 1))
+  (zettelkasten--note-regexp note "title: \\(.*\\)" 1))
 
 ;;; -----------------
 ;;; DEALING WITH TAGS
@@ -247,7 +249,7 @@ If PARENT is nil, it will not add a link from a PARENT."
 (defun zettelkasten--get-tags (note)
   "Get all the tags for a specific NOTE."
   (let ((tags (zettelkasten--note-regexp
-               note "#\\+TAGS: \\(.*\\)" 1)))
+               note "tags: \\(.*\\)" 1)))
     (when tags
       (mapcar #'s-trim (s-split "," tags)))))
 
